@@ -31,6 +31,7 @@
                         <th scope="col">User ID</th>
                         <th scope="col">Name</th>    
                         <th scope="col">Email</th>
+                        <th scope="col">Role</th>
                         <th>Edit</th>
                         <th>Delete</th>
                     </tr>
@@ -40,15 +41,23 @@
                     <td>{{ $user->id }}</td>    
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
+                    @if ($user->role == 0)
+    <td>Admin</td>
+@elseif ($user->role == 1)
+    <td>Customer</td>
+@endif
+
                     <td>
                         <a class="btn btn-primary" href="{{ route('user.edit', ['user' => $user]) }}">Edit</a>
                     </td>
                     <td>
+                        @if ($user->id !== auth()->user()->id)
                         <form id="deleteForm{{ $user->id }}" method="post" action="{{ route('user.destroy', ['user' => $user]) }}">
                             @csrf 
                             @method('delete')
                             <button class="btn btn-danger" type="button" onclick="confirmDelete({{ $user->id }})">Delete</button>
                         </form>
+                        @endif
                     </td>
                 </tr>
                 @endforeach

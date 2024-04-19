@@ -40,6 +40,7 @@
                         <th scope="col">Price</th>
                         <th scope="col">Quantity</th>
                         <th scope="col">Description</th>
+                        <th scope="col">Image</th>
                         <th>Edit</th>
                 <th>Delete</th>
                     </tr>
@@ -52,6 +53,7 @@
                         <td>{{$products -> price}}</td>
                         <td>{{$products -> quantity}}</td>
                         <td>{{$products -> description}}</td>
+                        <td><img src="{{asset($products -> image) }}" alt="" width="64px" height="64px"></td>
                         <td><a class="btn btn-primary" href="{{route('product.edit',['product' => $products])}}">Edit</a>
                            
                         </td>
