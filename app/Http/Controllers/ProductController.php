@@ -3,83 +3,76 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Repositories\Product\ProductInterface;
+use App\Service\ValidatorService;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
     //
-    public function index(){
-        $products = Product::all();
-        return view("products.index",["products"=>$products]);
-      
+
+    protected ProductInterface $productRepository;
+    protected ValidatorService $validatorService;
+
+    public function __construct(ProductInterface $productRepository, ValidatorService $validatorService)
+    {
+        $this->productRepository = $productRepository;
+        $this->validatorService = $validatorService;
     }
-    public function create(){
+
+    public function index()
+    {
+        // Fetch all products using the product repository
+        $products = $this->productRepository->paginate(5);
+
+        // Return the products to a view
+        return view('products.index', compact('products'))->with('i', (request()->input('page', 1) - 1) * 5);
+
+    }
+
+    public function create()
+    {
         return view("products.create");
     }
+
     public function store(Request $request)
-{
-    // Validate the incoming request data
-    $validatedData = $request->validate([
-        'name' => 'required|string',
-        'price' => 'required|numeric',
-        'quantity' => 'required|integer',
-        'image' => 'required|image|mimes:jpeg,png,jpg,gif,jfif|max:2048', // Assuming image is required and restricted to certain formats and size
-        'description' => 'required|string',
-    ]);
+    {
+        $validatedData = $this->validatorService->validateProductData($request);
+        $imagePath = $this->validatorService->uploadImage($request);
 
-    // Handle the image upload
-    if ($request->hasFile('image')) {
-        $image = $request->file('image');
-        $imageName = time() . '.' . $image->getClientOriginalExtension();
-        
-        // Create the storage directory if it doesn't exist
-        $imagePath = $image->storeAs('public/assets/images', $imageName);
+        if ($imagePath) {
+            $validatedData['image'] = $imagePath;
+        }
 
-        // Update the 'image' field in the validated data with the correct path
-        $validatedData['image'] = 'storage/assets/images/' . $imageName;
+        $this->productRepository->create($validatedData);
+
+        return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
 
-    // Create the product
-    $product = Product::create($validatedData);
+    public function edit(Product $product)
+    {
 
-    // Redirect back to the product index page with success message
-    return redirect()->route('product.index')->with('success', 'Product created successfully.');
-}
-
-
-
-    public function edit(Product $product){
         return view('products.edit', ['product' => $product]);
     }
 
-    public function update(Product $product, Request $request){
-        $validatedData = $request->validate([
-            'name' => 'required|string',
-            'price' => 'required|numeric',
-            'quantity' => 'required|integer',
-            'image' => 'image|mimes:jpeg,png,jpg,gif,jfif|max:2048', // Assuming image is required and restricted to certain formats and size
-            'description' => 'required|string',
-        ]);
-    
-        // Handle the image upload
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            
-            // Create the storage directory if it doesn't exist
-            $imagePath = $image->storeAs('public/assets/images', $imageName);
-    
-            // Update the 'image' field in the validated data with the correct path
-            $validatedData['image'] = 'storage/assets/images/' . $imageName;
+    public function update(Product $product, Request $request)
+    {
+        $validatedData = $this->validatorService->validateProductUpdateData($request);
+        $imagePath = $this->validatorService->uploadImage($request);
+
+        if ($imagePath) {
+            $validatedData['image'] = $imagePath;
         }
-        $product->update($validatedData);
 
-        return redirect(route('product.index'))->with('success', 'Product Updated Succesffully');
+        $this->productRepository->update($product, $validatedData);
 
+        return redirect(route('product.index'))->with('success', 'Product Updated Successfully');
     }
-    public function destroy(Product $product){
-        $product->delete();
-        return redirect(route('product.index'))->with('success', 'Product deleted Succesffully');
+
+    public function destroy(Product $product)
+    {
+        $this->productRepository->delete($product);
+        return redirect(route('product.index'))->with('success', 'Product deleted Successfully');
     }
-    
+
 }

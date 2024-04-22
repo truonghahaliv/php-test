@@ -14,62 +14,63 @@
             color: #17a2b8
         }
     </style>
-    
+
 </head>
 <body>   <h1>Products</h1>
-    
+
     <div class="container" >
-     
+
         <div>
-            
+
             <div class="container">
-             
-                <a href="{{route('product.create')}}" class="btn  p-2" style="background: #58abff; color: white; margin-bottom: 45px;margin-top: 30px "  >Add New Product</a>
+
+                <a href="{{route('product.create')}}" class="btn  p-2"
+                   style="background: #58abff; color: white; margin-bottom: 45px;margin-top: 30px ">Add New Product</a>
             </div>
-            
-           
+
+
         </div>
         <div class="container" style="margin-top: -30px">
-            <a href="list-user" style="text-decoration: none; color: #58abff"><h2 style="color: white">List Product</h2></a>
+            <h2 style="color: white">List Product</h2>
             <table class="table table-hover table-bordered">
                 <thead>
-                    <tr>
-                        <th scope="col">Product ID</th>
-                        <th scope="col">Name</th>    
-                                                
-                        <th scope="col">Price</th>
-                        <th scope="col">Quantity</th>
-                        <th scope="col">Description</th>
-                        <th scope="col">Image</th>
-                        <th>Edit</th>
-                <th>Delete</th>
-                    </tr>
+                <tr>
+                    <th scope="col">Product ID</th>
+                    <th scope="col">Name</th>
+
+                    <th scope="col">Price</th>
+                    <th scope="col">Quantity</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Image</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
                 </thead>
-              
-                    @foreach ($products as $products)
+
+                @foreach ($products as $products)
                     <tr>
-                        <td>{{$products -> id}}</td>    
+                        <td>{{$products -> id}}</td>
                         <td>{{$products -> name}}</td>
                         <td>{{$products -> price}}</td>
                         <td>{{$products -> quantity}}</td>
                         <td>{{$products -> description}}</td>
                         <td><img src="{{asset($products -> image) }}" alt="" width="64px" height="64px"></td>
-                        <td><a class="btn btn-primary" href="{{route('product.edit',['product' => $products])}}">Edit</a>
-                           
+                        <td><a class="btn btn-primary"
+                               href="{{route('product.edit',['product' => $products])}}">Edit</a>
+
                         </td>
                         <td>
                             <form method="post" action="{{route('product.destroy', ['product' => $products])}}">
-                                @csrf 
+                                @csrf
                                 @method('delete')
-                                <input class="btn btn-danger" type="submit" value="Delete" />
+                                <input class="btn btn-danger" type="submit" value="Delete"/>
                             </form>
                         </td>
-                       
+
                     </tr>
-                    @endforeach
-                        
-                   
-                
+                @endforeach
+
+
             </table>
             <div>
                 @if (session() -> has ('success') )
@@ -80,7 +81,7 @@
             </div>
 
         </div>
-       
+
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
