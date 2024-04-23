@@ -15,9 +15,11 @@ class HomeController extends Controller
         $this->productRepository = $productRepository;
     }
     public function index(){
-        $products = $this->productRepository->all();
-        return view("home",compact('products'));
+        $products = $this->productRepository->paginate(4);
+
+        return view('home', compact('products'))->with('i', (request()->input('page', 1) - 1) * 4);
 
     }
+
 
 }

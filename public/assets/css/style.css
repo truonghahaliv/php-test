@@ -32,7 +32,7 @@
     }
 }
 /* margenes */
-:root{ 
+:root{
     --mb-1: .5rem;
     --mb-2: 1rem;
     --mb-3: 1.5rem;
@@ -118,7 +118,7 @@ img {
 }
 @media screen and (max-width: 768px) {
     .nav-menu {
-        width: 80%; 
+        width: 80%;
         position: fixed;
         top: var(--header-height);
         right: -100%;
@@ -151,7 +151,7 @@ img {
     .show {
         right: 0;
     }
-    
+
 }
 .active {
     color: var(--first-color);
@@ -216,7 +216,7 @@ img {
 .collection-data {
     width: 100%;
     padding-left: var(--mb-4);
-    
+
 }
 .collection-title {
     font-size: var(--h2-font-size);
@@ -325,7 +325,7 @@ img {
     background-color: var(--gray-color);
     overflow: hidden;
     transition: .3s;
-    
+
 }
 .new-box:hover .new-link{
     bottom: 0;
@@ -521,7 +521,7 @@ img {
     }
     .footer-container {
         padding-top: 2rem;
-        
+
     }
     .footer {
         padding-bottom: 0;
@@ -544,4 +544,16 @@ img {
     .home-img {
         right: 15%;
     }
+}
+.pagination {
+    margin-left: 53%;
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.pagination li {
+    margin: 0 5px; /* Điều chỉnh khoảng cách giữa các phần tử */
+    list-style: none; /* Loại bỏ dấu hiển thị danh sách */
 }

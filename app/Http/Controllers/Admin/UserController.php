@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Repositories\User\UserInterface;
-use App\Repositories\User\UserRepository;
 use App\Service\ValidatorService;
 use Illuminate\Http\Request;
 
@@ -19,13 +19,15 @@ class UserController extends Controller
     }
 
     public function index(){
-        $users = $this->userRepository->all();
+        $this->validatorService->checkRole();
+        $users = $this->userRepository->paginate(5);
 
         // Return the products to a view
-        return view('users.index', compact('users'));
+        return view('users.index', compact('users'))->with('i', (request()->input('page', 1) - 1) * 5);
 
     }
     public function create(){
+        $this->validatorService->checkRole();
         return view("users.create");
     }
     public function store(Request $request){
@@ -47,6 +49,7 @@ class UserController extends Controller
 
     }
     public function edit(User $user){
+        $this->validatorService->checkRole();
         return view('users.edit', ['user' => $user]);
     }
 
@@ -65,7 +68,8 @@ class UserController extends Controller
         return redirect(route('user.index'))->with('success', 'Product Updated Successfully');
 
     }
-    public function destroy(User $User){
+    public function destroy(User $user){
+        $this->validatorService->checkRole();
         $this->userRepository->delete($user);
         return redirect(route('user.index'))->with('success', 'User deleted Succesffully');
     }

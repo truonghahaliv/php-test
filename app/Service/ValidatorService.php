@@ -34,7 +34,9 @@ class ValidatorService
         return $request->validate([
             'name' => 'required',
             'email' => 'required|unique:users,email',
-            'password' => 'required'
+            'password' => 'required',
+            'role' => 'required',
+
         ]);
     }
     public  function validateUserUpdateData(Request $request, User $user)
@@ -43,7 +45,8 @@ class ValidatorService
             'name' => 'required',
 
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'password' => 'required'
+            'password' => 'required',
+            'role' => 'required',
         ]);
     }
 
@@ -56,5 +59,12 @@ class ValidatorService
             return 'storage/assets/images/' . $imageName;
         }
         return null;
+    }
+    public function checkRole()
+    {
+        if (auth()->user()->role === 1) {
+            // If the role is 1, redirect to 404 Not Found page
+            abort(404);
+        }
     }
 }

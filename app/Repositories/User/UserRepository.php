@@ -13,10 +13,9 @@ class UserRepository implements UserInterface
         $this->user = $user;
     }
 
-    public function all()
+    public function paginate($perPage = 5)
     {
-        return $this->user
-            ->get();
+        return $this->user->paginate($perPage);
     }
     public function create(array $data)
     {
