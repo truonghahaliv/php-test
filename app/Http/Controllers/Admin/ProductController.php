@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Repositories\Product\ProductInterface;
 use App\Service\ValidatorService;
@@ -22,16 +23,20 @@ class ProductController extends Controller
 
     public function index()
     {
+        $this->validatorService->checkRole();
         // Fetch all products using the product repository
         $products = $this->productRepository->paginate(5);
 
-        // Return the products to a view
         return view('products.index', compact('products'))->with('i', (request()->input('page', 1) - 1) * 5);
+
+        // Return the products to a view
+
 
     }
 
     public function create()
     {
+        $this->validatorService->checkRole();
         return view("products.create");
     }
 
@@ -51,7 +56,7 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-
+        $this->validatorService->checkRole();
         return view('products.edit', ['product' => $product]);
     }
 
@@ -71,6 +76,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        $this->validatorService->checkRole();
         $this->productRepository->delete($product);
         return redirect(route('product.index'))->with('success', 'Product deleted Successfully');
     }

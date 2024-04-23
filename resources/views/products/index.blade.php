@@ -47,14 +47,14 @@
                 </tr>
                 </thead>
 
-                @foreach ($products as $products)
+                @foreach ($products as $p)
                     <tr>
-                        <td>{{$products -> id}}</td>
-                        <td>{{$products -> name}}</td>
-                        <td>{{$products -> price}}</td>
-                        <td>{{$products -> quantity}}</td>
-                        <td>{{$products -> description}}</td>
-                        <td><img src="{{asset($products -> image) }}" alt="" width="64px" height="64px"></td>
+                        <td>{{$p -> id}}</td>
+                        <td>{{$p -> name}}</td>
+                        <td>{{$p -> price}}</td>
+                        <td>{{$p -> quantity}}</td>
+                        <td>{{$p -> description}}</td>
+                        <td><img src="{{asset($p -> image) }}" alt="" width="64px" height="64px"></td>
                         <td><a class="btn btn-primary"
                                href="{{route('product.edit',['product' => $products])}}">Edit</a>
 
@@ -79,6 +79,8 @@
                     </div>
                 @endif
             </div>
+
+            <div class="d-flex justify-content-end"> {{$products->links()}}</div>
 
         </div>
 
