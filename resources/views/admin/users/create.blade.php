@@ -1,3 +1,4 @@
+<x-app-layout>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -45,13 +46,7 @@
         <label for="password" style="font-weight: bold">Password</label>
         <input type="password" class="form-control" id="password" name="password" placeholder="Password">
     </div>
-    <div class="form-group col-md-4">
-        <label for="role" style="font-weight: bold">Role</label>
-        <select name="role" class="form-control">
-            <option value="0">Admin</option>
-            <option value="1">Customer</option>
-        </select>
-    </div>
+
 
     <button type="submit" class="btn btn-primary">Add</button>
 </form>
@@ -66,3 +61,4 @@
         integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
         crossorigin="anonymous"></script>
 </html>
+    </x-app-layout>

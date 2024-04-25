@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use App\Repositories\Product\ProductInterface;
 use App\Service\ValidatorService;
+use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
 
 class ProductController extends Controller
@@ -23,11 +24,12 @@ class ProductController extends Controller
 
     public function index()
     {
-        $this->validatorService->checkRole();
-        // Fetch all products using the product repository
         $products = $this->productRepository->paginate(5);
 
-        return view('products.index', compact('products'))->with('i', (request()->input('page', 1) - 1) * 5);
+        return view('admin.products.index', compact('products'))->with('i', (request()->input('page', 1) - 1) * 5);
+
+        // Fetch all products using the product repository
+
 
         // Return the products to a view
 
@@ -36,8 +38,8 @@ class ProductController extends Controller
 
     public function create()
     {
-        $this->validatorService->checkRole();
-        return view("products.create");
+
+        return view("admin.products.create");
     }
 
     public function store(Request $request)
@@ -56,12 +58,13 @@ class ProductController extends Controller
 
     public function edit(Product $product)
     {
-        $this->validatorService->checkRole();
-        return view('products.edit', ['product' => $product]);
+
+        return view('admin.products.edit', ['product' => $product]);
     }
 
     public function update(Product $product, Request $request)
     {
+
         $validatedData = $this->validatorService->validateProductUpdateData($request);
         $imagePath = $this->validatorService->uploadImage($request);
 
@@ -76,7 +79,7 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
-        $this->validatorService->checkRole();
+
         $this->productRepository->delete($product);
         return redirect(route('product.index'))->with('success', 'Product deleted Successfully');
     }

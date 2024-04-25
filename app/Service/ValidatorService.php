@@ -35,7 +35,7 @@ class ValidatorService
             'name' => 'required',
             'email' => 'required|unique:users,email',
             'password' => 'required',
-            'role' => 'required',
+
 
         ]);
     }
@@ -46,10 +46,25 @@ class ValidatorService
 
             'email' => 'required|email|unique:users,email,' . $user->id,
             'password' => 'required',
-            'role' => 'required',
+
         ]);
     }
+    public  function validatePermissionData(Request $request)
+    {
+        return $request->validate([
+            'name' => 'required','string','unique:permissions,name'
 
+
+        ]);
+    }
+    public  function validateRoleData(Request $request)
+    {
+        return $request->validate([
+            'name' => 'required','string','unique:role,name'
+
+
+        ]);
+    }
     public function uploadImage(Request $request)
     {
         if ($request->hasFile('image')) {
@@ -60,11 +75,5 @@ class ValidatorService
         }
         return null;
     }
-    public function checkRole()
-    {
-        if (auth()->user()->role === 1) {
-            // If the role is 1, redirect to 404 Not Found page
-            abort(404);
-        }
-    }
+
 }

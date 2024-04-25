@@ -1,8 +1,9 @@
+<x-app-layout>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>JSP Page</title>
+    <title>Products</title>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" />
     <style>
@@ -16,7 +17,7 @@
     </style>
 
 </head>
-<body>   <h1>Products</h1>
+<body>
 
     <div class="container" >
 
@@ -31,7 +32,7 @@
 
         </div>
         <div class="container" style="margin-top: -30px">
-            <h2 style="color: white">List Product</h2>
+            <h2 style="color: #17a2b8">List Product</h2>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
@@ -56,11 +57,11 @@
                         <td>{{$p -> description}}</td>
                         <td><img src="{{asset($p -> image) }}" alt="" width="64px" height="64px"></td>
                         <td><a class="btn btn-primary"
-                               href="{{route('product.edit',['product' => $products])}}">Edit</a>
+                               href="{{route('product.edit',['product' => $p])}}">Edit</a>
 
                         </td>
                         <td>
-                            <form method="post" action="{{route('product.destroy', ['product' => $products])}}">
+                            <form method="post" action="{{route('product.destroy', ['product' => $p])}}">
                                 @csrf
                                 @method('delete')
                                 <input class="btn btn-danger" type="submit" value="Delete"/>
@@ -90,3 +91,5 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js" integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF" crossorigin="anonymous"></script>
 </body>
 </html>
+
+    </x-app-layout>

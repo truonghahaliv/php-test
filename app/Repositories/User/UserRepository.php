@@ -3,6 +3,7 @@
 namespace App\Repositories\User;
 
 use App\Models\User;
+use function Laravel\Prompts\select;
 
 class UserRepository implements UserInterface
 {
@@ -15,7 +16,15 @@ class UserRepository implements UserInterface
 
     public function paginate($perPage = 5)
     {
-        return $this->user->paginate($perPage);
+        return $this->user->orderBy('id', 'desc')->paginate($perPage);
+    }
+    public function find($id)
+    {
+        return $this->user->find($id);
+    }
+    public function all( )
+    {
+        return $this->user->select('id', 'name')->get();
     }
     public function create(array $data)
     {
@@ -31,5 +40,9 @@ class UserRepository implements UserInterface
     public function delete(User $user)
     {
         return $user->delete();
+    }
+    public function assignRole($user, $roleName)
+    {
+        $user->assignRole($roleName);
     }
 }

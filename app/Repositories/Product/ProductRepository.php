@@ -15,7 +15,7 @@ class ProductRepository implements ProductInterface
 
     public function paginate($perPage = 5)
     {
-        return $this->product->paginate($perPage);
+        return $this->product->orderBy('id', 'desc')->paginate($perPage);
     }
     public function create(array $data)
     {
