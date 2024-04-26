@@ -21,6 +21,10 @@ class   RoleRepository implements RoleInterface
         return $this->role->paginate($perPage);
     }
 
+    public function all()
+    {
+        return $this->role->all();
+    }
     public function create($name)
     {
         return Role::create($name);

@@ -7,7 +7,7 @@ use Spatie\Permission\Models\Role;
 interface RoleInterface
 {
     public function paginate($perPage = 5);
-
+    public function all();
     public function create($name);
     public function update(Role $role, array $data);
     public function delete(Role $role);

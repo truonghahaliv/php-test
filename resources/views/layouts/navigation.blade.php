@@ -9,48 +9,55 @@
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800 dark:text-gray-200"/>
                     </a>
                 </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
+                        {{ __('Home') }}
+                    </x-nav-link>
 
-
-
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('home')" :active="request()->routeIs('home')">
-                            {{ __('Home') }}
-                        </x-nav-link>
-
-                    </div>
-                @can('Admin')
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-
-                    </div>
-
+                </div>
+                @if(auth()->user()->roles->contains('name', 'lung tung'))
                     <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                         <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
                             {{ __('Products') }}
                         </x-nav-link>
 
                     </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
-                            {{ __('Users') }}
-                        </x-nav-link>
 
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permissions.index')">
-                            {{ __('Permissions') }}
-                        </x-nav-link>
+                @else
 
-                    </div>
-                    <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                        <x-nav-link :href="route('role.index')" :active="request()->routeIs('permissions.index')">
-                            {{ __('Roles') }}
-                        </x-nav-link>
 
-                    </div>
-                @endcan
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+
+                </div>
+
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('product.index')" :active="request()->routeIs('product.index')">
+                        {{ __('Products') }}
+                    </x-nav-link>
+
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('user.index')" :active="request()->routeIs('user.index')">
+                        {{ __('Users') }}
+                    </x-nav-link>
+
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('permission.index')" :active="request()->routeIs('permissions.index')">
+                        {{ __('Permissions') }}
+                    </x-nav-link>
+
+                </div>
+                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('role.index')" :active="request()->routeIs('permissions.index')">
+                        {{ __('Roles') }}
+                    </x-nav-link>
+
+                </div>
+                @endif
 
             </div>
 
