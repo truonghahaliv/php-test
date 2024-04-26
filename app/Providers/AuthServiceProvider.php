@@ -21,19 +21,34 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
         $roles = Role::with('permissions')->get();
+
+
         $permissionsArray = [];
         foreach ($roles as $role) {
+
             foreach ($role->permissions as $permissions) {
-                $permissionsArray[$permissions->name][] = $role->id;
+                $permissionsArray[$permissions->name] [] = $role->name;
+
             }
+
+
         }
+
 
 // Every permission may have multiple roles assigned
         foreach ($permissionsArray as $name => $roles) {
+
             Gate::define($name, function ($user) use ($roles) {
                 // We check if we have the needed roles among current user's roles
-                return count(array_intersect($user->roles->pluck('id')->toArray(), $roles)) > 0;
-            });
+//                dd(count(array_intersect($user->roles->pluck('name')->toArray(), $roles)));
+                return count(array_intersect($user->roles->pluck('name')->toArray(), $roles));
+            }
+
+            );
+
+
         }
+
+
     }
 }

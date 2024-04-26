@@ -24,11 +24,20 @@
                 @if (Route::has('login'))
                     <nav class="-mx-3 flex flex-1 justify-end">
                         @auth
-                            @if (auth()->user()->role == 0)
+                            @if(auth()->user()->roles->contains('name', 'admin','lung tung'))
                                 <a href="{{ url('/dashboard') }}" style="margin-left: 30px">
-                                    Admin
+                                    @if(auth()->user()->roles->contains('name', 'admin'))
+                                        Admin
+
+                                        @else
+                                            Seller
+                                        @endif
                                 </a>
                             @endif
+
+
+
+
                             <x-dropdown-link :href="route('profile.edit')" style="margin-left: 30px">
                                 {{ __('Profile') }}
                             </x-dropdown-link>
@@ -123,7 +132,7 @@
 
 
         </div>
-        <div class="pagination" > {{$products->links()}}</div>
+        <div class="pagination"> {{$products->links()}}</div>
     </section>
     <!-- === OFFERS === -->
     <section class="offer section">

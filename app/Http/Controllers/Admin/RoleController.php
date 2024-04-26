@@ -48,15 +48,18 @@ class RoleController extends Controller
     public function store(Request $request)
     {
 
-        $validatedData = $this->validatorService->validateRoleData($request);
+
 //
         $role = $this->roleRepository->create(['name' => $request->name]);
 
-
+        $permissionArray = [];
         foreach ($request->permission as $permission) {
-            $this->permissionRepository->givePermissionTo($role, $permission);
-        }
+            if($permission!=null){
+                $this->permissionRepository->givePermissionTo($role, $permission);
 
+            }
+
+        }
 
         foreach ($request->users as $userId) {
             $user = $this->userRepository->find($userId);
