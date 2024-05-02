@@ -33,6 +33,8 @@ Route::put('/product/{product}/update', [ProductController::class, 'update'])->n
     ->middleware('can:Edit Product');
 Route::delete('/product/{product}/destroy', [ProductController::class, 'destroy'])->name('product.destroy')
     ->middleware('can:Delete Product');
+Route::get('/product/import', [\App\Http\Controllers\Admin\ProductController::class, 'file'])->name('product.file');
+Route::post('//product/import', [\App\Http\Controllers\Admin\ProductController::class, 'importFile'])->name('product.file');
 
 Route::get('/user', [UserController::class, 'index'])->name('user.index')
     ->middleware('can:View User');
@@ -46,6 +48,9 @@ Route::put('/user/{user}/update', [UserController::class, 'update'])->name('user
     ->middleware('can:Edit User');
 Route::delete('/user/{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy')
     ->middleware('can:Delete User');
+Route::get('/user/import', [\App\Http\Controllers\Admin\UserController::class, 'fileImport'])->name('user.fileImport');
+Route::post('//user/import', [\App\Http\Controllers\Admin\UserController::class, 'importFile'])->name('user.file');
+Route::get('//user/export', [\App\Http\Controllers\Admin\UserController::class, 'exportFile'])->name('user.fileExport');
 
 Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index')
     ->middleware('can:View Permission');

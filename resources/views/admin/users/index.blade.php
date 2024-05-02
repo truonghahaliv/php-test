@@ -22,22 +22,28 @@
     </head>
     <body>
 
-    <h1>Users</h1>
+
     <div class="container">
         <div>
             <div class="container">
                 <a href="{{ route('user.create') }}" class="btn p-2"
                    style="background: #58abff; color: white; margin-bottom: 45px; margin-top: 30px;">Add New User</a>
+                <a href="{{ route('user.fileImport') }}" class="btn p-2"
+                   style="background: #58abff; color: white; margin-bottom: 45px; margin-top: 30px;">Import File List User</a>
+                <a href="{{ route('user.fileExport') }}" class="btn p-2"
+                   style="background: #58abff; color: white; margin-bottom: 45px; margin-top: 30px;">Export File List User</a>
             </div>
+
         </div>
         <div class="container" style="margin-top: -30px">
+            <h2 style="color: #17a2b8">List User</h2>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
                     <th scope="col">User ID</th>
                     <th scope="col">Name</th>
                     <th scope="col">Email</th>
-{{--                    <th scope="col">Role</th>--}}
+
                     <th>Action</th>
 
                 </tr>

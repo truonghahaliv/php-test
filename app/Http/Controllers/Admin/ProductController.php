@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\ProductFileImport;
 use App\Models\Product;
 use App\Repositories\Product\ProductInterface;
 use App\Service\ValidatorService;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class ProductController extends Controller
 {
@@ -82,6 +84,17 @@ class ProductController extends Controller
 
         $this->productRepository->delete($product);
         return redirect(route('product.index'))->with('success', 'Product deleted Successfully');
+    }
+    public function file(){
+
+        return view("admin.products.file");
+    }
+    public function importFile(Request $request){
+
+        Excel::import(new ProductFileImport(), $request->file('file'));
+        $products = $this->productRepository->paginate(5);
+
+        return view('admin.products.index', compact('products'))->with('i', (request()->input('page', 1) - 1) * 5);
     }
 
 }
