@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Imports\UserFileExport;
+use App\Imports\UserFileImport;
 use App\Models\User;
 use App\Repositories\User\UserInterface;
 use App\Service\ValidatorService;
 use Illuminate\Auth\Access\Gate;
 use Illuminate\Http\Request;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -72,6 +75,23 @@ class UserController extends Controller
 
         $this->userRepository->delete($user);
         return redirect(route('user.index'))->with('success', 'User deleted Succesffully');
+    }
+    public function fileImport(){
+
+        return view("admin.users.file");
+    }
+    public function importFile(Request $request){
+
+        Excel::import(new UserFileImport, $request->file('file'));
+        $users = $this->userRepository->paginate(5);
+        // Return the products to a view
+        return view('admin.users.index', compact('users'))->with('i', (request()->input('page', 1) - 1) * 5);
+    }
+
+    public function exportFile(Request $request){
+
+       return Excel::download(new UserFileExport(), 'users.csv');
+
     }
 
 }

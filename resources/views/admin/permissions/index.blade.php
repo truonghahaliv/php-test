@@ -21,7 +21,7 @@
 
     </head>
     <body>
-    <h1>Permissions</h1>
+
     <div class="container">
         <div>
             <div class="container">
@@ -30,6 +30,7 @@
             </div>
         </div>
         <div class="container" style="margin-top: -30px">
+            <h2 style="color: #17a2b8">List Permission</h2>
             <table class="table table-hover table-bordered">
                 <thead>
                 <tr>
