@@ -18,32 +18,30 @@
 </head>
 <body>
     <h1>Edit a User</h1>
-    <div>
-        @if($errors->any())
-        <ul>
-            @foreach($errors->all() as $error)
-                <li>{{$error}}</li>
-            @endforeach
-        </ul>
-
-
-        @endif
-    </div>
+    
     <form action="{{route('user.update', ['user' => $user])}}" method="post">
        @csrf
        @method("put")
             <div class="form-group col-md-4">
                 <label for="inputName" style="font-weight: bold">Name:  </label>
                 <input type="text" class="form-control" id="inputName" placeholder="Product name"  name="name" value="{{$user -> name}}">
-
+                @error('name')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
             <div class="form-group col-md-4">
                     <label for="email" style="font-weight: bold">Email</label>
                     <input type="email" class="form-control" id="email" name="email" placeholder="Email" value="{{$user -> email}}" >
+                    @error('email')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
             </div>
             <div class="form-group col-md-4">
                 <label for="password" style="font-weight: bold">Password</label>
                 <input type="password" class="form-control" id="password" name="password" placeholder="Password" value="{{$user-> password}}" >
+                @error('password')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
         </div>
 
         <button type="submit" class="btn btn-primary">Edit</button>

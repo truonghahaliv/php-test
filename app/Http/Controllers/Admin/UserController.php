@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Product\StoreProductRequest;
+use App\Http\Requests\Admin\Product\UpdateProductRequest;
+use App\Http\Requests\Admin\User\StoreUserRequest;
+use App\Http\Requests\Admin\User\UpdateUserRequest;
 use App\Imports\UserFileExport;
 use App\Imports\UserFileImport;
 use App\Models\User;
@@ -33,15 +37,11 @@ class UserController extends Controller
 
         return view("admin.users.create");
     }
-    public function store(Request $request){
+    public function store(StoreUserRequest $request){
 
-        $validatedData = $this->validatorService->validateUserData($request);
+        $validatedData = $request->validated();
 
-//        $imagePath = $this->validatorService->uploadImage($request);
-//
-//        if ($imagePath) {
-//            $validatedData['image'] = $imagePath;
-//        }
+
 
         $this->userRepository->create($validatedData);
 
@@ -56,15 +56,11 @@ class UserController extends Controller
         return view('admin.users.edit', ['user' => $user]);
     }
 
-    public function update(User $user, Request $request){
+    public function update(User $user, UpdateUserRequest $request){
 
 
-        $validatedData = $this->validatorService->validateUserUpdateData($request, $user);
-//        $imagePath = $this->validatorService->uploadImage($request);
-//
-//        if ($imagePath) {
-//            $validatedData['image'] = $imagePath;
-//        }
+        $validatedData = $request->validated();
+
 
         $this->userRepository->update($user, $validatedData);
 

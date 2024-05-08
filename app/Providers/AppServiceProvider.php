@@ -2,11 +2,14 @@
 
 namespace App\Providers;
 
+use App\Events\RegisteredEvent;
+use App\Listeners\SendRegisteredMailListener;
 use App\Repositories\Product\ProductInterface;
 use App\Repositories\Product\ProductRepository;
 use App\Repositories\User\UserInterface;
 use App\Repositories\User\UserRepository;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -28,5 +31,10 @@ class AppServiceProvider extends ServiceProvider
     {
         //
         Paginator::useBootstrap();
+        Event::listen(
+            RegisteredEvent::class,
+            SendRegisteredMailListener::class,
+        );
+
     }
 }

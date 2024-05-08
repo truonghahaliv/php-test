@@ -25,43 +25,48 @@
 
     <h1>Create a Product</h1>
     <div>
-        @if($errors->any())
-            <ul>
-                @foreach($errors->all() as $error)
-                    <li>{{$error}}</li>
-                @endforeach
-            </ul>
 
-        @endif
     </div>
     <form action="{{route('product.store')}}" method="post" enctype="multipart/form-data">
         @csrf
         @method("post")
         <div class="form-group col-md-3">
             <label for="inputName" style="font-weight: bold">Name: </label>
-            <input type="text" class="form-control" id="inputName" placeholder="Product name" name="name">
-
+            <input type="text" class="form-control @error('name') is-invalid @enderror" id="name" placeholder="Product name" name="name" value="{{ old('name') }}">
+            @error('name')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group col-md-3">
             <label for="price" style="font-weight: bold">Price</label>
-            <input type="number" class="form-control" id="price" name="price">
+            <input type="number" class="form-control @error('price') is-invalid @enderror"  id="price" name="price" value="{{ old('price') }}">
+            @error('price')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group col-md-3">
             <label for="quantity" style="font-weight: bold">Quantity</label>
-            <input type="number" class="form-control" id="quantity" name="quantity">
+            <input type="number" class="form-control @error('quantity') is-invalid @enderror" id="quantity" name="quantity" value="{{ old('quantity') }}">
+            @error('quantity')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group col-md-3">
             <label for="description" style="font-weight: bold">Description:<label> </label> </label>
-            <input type="text" class="form-control" id="description" placeholder="Description" name="description">
+            <input type="text" class="form-control @error('description') is-invalid @enderror"  id="description" placeholder="Description" name="description" value="{{ old('description') }}">
+            @error('description')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
         </div>
         <div class="form-group col-md-3">
             <label for="image" style="font-weight: bold">Image:<label> </label> </label>
 
-            <input type="file" class="form-control" id="image" placeholder="Image" accept="image/*"
-                   onchange="loadFile(event)" name="image">
+            <input  type="file" class="form-control @error('image') is-invalid @enderror" id="image" placeholder="Image" accept="image/*"
+                   name="image"  >
+            @error('image')
+            <div class="alert alert-danger">{{ $message }}</div>
+            @enderror
 
-            <img src="" id="output"
-                 style="width: 150px;height: 150px;object-fit: cover"/>
         </div>
         <button type="submit" class="btn btn-primary">Add</button>
     </form>

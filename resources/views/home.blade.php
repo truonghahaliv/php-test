@@ -24,15 +24,8 @@
                 @if (Route::has('login'))
                     <nav class="-mx-3 flex flex-1 justify-end">
                         @auth
-                            @if(auth()->user()->roles->contains('name', 'admin','lung tung'))
-                                <a href="{{ url('/dashboard') }}" style="margin-left: 30px">
-                                    @if(auth()->user()->roles->contains('name', 'admin'))
-                                        Admin
-
-                                        @else
-                                            Seller
-                                        @endif
-                                </a>
+                            @if(auth()->check() && auth()->user()->roles->contains('name', 'admin'))
+                                <a href="{{ url('/dashboard') }}" style="margin-left: 30px">Admin</a>
                             @endif
 
 

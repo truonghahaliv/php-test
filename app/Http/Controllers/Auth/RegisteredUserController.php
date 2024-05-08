@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Events\RegisteredEvent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
+use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -39,14 +41,18 @@ class RegisteredUserController extends Controller
         'name' => $request->name,
         'email' => $request->email,
         'password' => Hash::make($request->password),
-        'role' => 1, // Set the role attribute to 1
+
     ]);
+    $user->assignRole('customer');
 
-    event(new Registered($user));
-
+    RegisteredEvent::dispatch($user);
     Auth::login($user);
 
-    return redirect(route('dashboard', absolute: false));
+    $redirectTo = $request->user()->roles->contains('name', 'admin') ? route('dashboard', [], false) : route('home', [], false);
+
+    return redirect()->intended($redirectTo);
+
+
 }
 
 }

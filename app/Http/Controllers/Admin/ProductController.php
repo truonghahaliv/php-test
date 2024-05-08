@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\Product\StoreProductRequest;
+use App\Http\Requests\Admin\Product\UpdateProductRequest;
 use App\Imports\ProductFileImport;
 use App\Models\Product;
 use App\Repositories\Product\ProductInterface;
 use App\Service\ValidatorService;
-use Illuminate\Auth\Access\Gate;
+
+use CloudinaryLabs\CloudinaryLaravel\Facades\Cloudinary;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -44,16 +47,16 @@ class ProductController extends Controller
         return view("admin.products.create");
     }
 
-    public function store(Request $request)
+    public function store(StoreProductRequest $request)
     {
-        $validatedData = $this->validatorService->validateProductData($request);
-        $imagePath = $this->validatorService->uploadImage($request);
+        $validatedData = $request->validated();
 
-        if ($imagePath) {
-            $validatedData['image'] = $imagePath;
-        }
+        $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath(), [
+            'folder' => 'laravel-test'
+        ])->getSecurePath();
+        $data = array_merge($validatedData, ['image' => $uploadedFileUrl]);
 
-        $this->productRepository->create($validatedData);
+        $this->productRepository->create($data);
 
         return redirect()->route('product.index')->with('success', 'Product created successfully.');
     }
@@ -64,17 +67,18 @@ class ProductController extends Controller
         return view('admin.products.edit', ['product' => $product]);
     }
 
-    public function update(Product $product, Request $request)
+    public function update(Product $product, UpdateProductRequest $request)
     {
 
-        $validatedData = $this->validatorService->validateProductUpdateData($request);
-        $imagePath = $this->validatorService->uploadImage($request);
+        $validatedData = $request->validated();
+        $uploadedFileUrl = Cloudinary::upload($request->file('image')->getRealPath(), [
+            'folder' => 'laravel-test'
+        ])->getSecurePath();
+        $data = array_merge($validatedData, ['image' => $uploadedFileUrl]);
 
-        if ($imagePath) {
-            $validatedData['image'] = $imagePath;
-        }
 
-        $this->productRepository->update($product, $validatedData);
+
+        $this->productRepository->update($product, $data);
 
         return redirect(route('product.index'))->with('success', 'Product Updated Successfully');
     }

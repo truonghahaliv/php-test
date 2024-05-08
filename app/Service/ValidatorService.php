@@ -65,15 +65,6 @@ class ValidatorService
 
         ]);
     }
-    public function uploadImage(Request $request)
-    {
-        if ($request->hasFile('image')) {
-            $image = $request->file('image');
-            $imageName = time() . '.' . $image->getClientOriginalExtension();
-            $imagePath = $image->storeAs('public/assets/images', $imageName);
-            return 'storage/assets/images/' . $imageName;
-        }
-        return null;
-    }
+
 
 }
