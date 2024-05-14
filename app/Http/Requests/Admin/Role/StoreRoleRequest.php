@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Admin\File;
+namespace App\Http\Requests\Admin\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class ImportFileRequest extends FormRequest
+class StoreRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,6 +22,8 @@ class ImportFileRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'file' => ['required', 'file', 'max:20480', 'mimes:csv'],];
+            //
+            'name' => ['required', 'string', 'max:255', 'unique:roles,name'],
+        ];
     }
 }

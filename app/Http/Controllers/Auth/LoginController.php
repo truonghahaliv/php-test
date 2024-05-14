@@ -7,9 +7,10 @@ use App\Http\Requests\Auth\LoginRequest;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
-class AuthenticatedSessionController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display the login view.
@@ -26,11 +27,7 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
-        $request->session()->regenerate();
-
-        $redirectTo = $request->user()->roles->contains('name', 'admin') ? route('dashboard', [], false) : route('home', [], false);
-
-        return redirect()->intended($redirectTo);
+        return redirect()->intended($request->user()->hasRole('admin') ? route('dashboard') : route('home'));
     }
 
     /**

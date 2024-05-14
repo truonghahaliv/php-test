@@ -30,11 +30,15 @@
 
                 <a href="{{route('product.create')}}" class="btn  p-2"
                    style="background: #58abff; color: white; margin-bottom: 45px;margin-top: 30px ">Add New Product</a>
-            </div>
-            <div class="container">
-                <a href="{{ route('product.file') }}" class="btn p-2"
+
+
+                <a href="{{ route('product.fileImportIndex') }}" class="btn p-2"
                    style="background: #58abff; color: white; margin-bottom: 45px; margin-top: 30px;">Import File List
                     User</a>
+
+
+                <a href="{{ route('user.Export') }}" class="btn p-2"
+                   style="background: #58abff; color: white; margin-bottom: 45px; margin-top: 30px;">Export File List Product</a>
             </div>
 
 

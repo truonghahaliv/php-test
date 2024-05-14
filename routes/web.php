@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\PermissionController;
 use Illuminate\Support\Facades\Route;
 
 
+
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
 Route::get('/dashboard', function () {
@@ -37,6 +38,13 @@ Route::delete('/product/{product}/destroy', [ProductController::class, 'destroy'
 Route::get('/product/import', [\App\Http\Controllers\Admin\ProductController::class, 'file'])->name('product.file');
 Route::post('//product/import', [\App\Http\Controllers\Admin\ProductController::class, 'importFile'])->name('product.file');
 
+Route::get('/product/fileImportIndex', [\App\Http\Controllers\Admin\ProductController::class, 'fileImportIndex'])->name('product.fileImportIndex');
+Route::post('/product/fileImportUpload', [\App\Http\Controllers\Admin\ProductController::class, 'fileImportUpload'])->name('product.Upload');
+Route::get('/product/batch', [\App\Http\Controllers\Admin\ProductController::class, 'batch'])->name('product.batch');
+Route::get('/product/export', [\App\Http\Controllers\Admin\ProductController::class, 'exportLargeDataToExcel'])->name('user.Export');
+
+
+
 Route::get('/user', [UserController::class, 'index'])->name('user.index')
     ->middleware('can:View User');
 Route::get('/user/create', [UserController::class, 'create'])->name('user.create')
@@ -49,9 +57,13 @@ Route::put('/user/{user}/update', [UserController::class, 'update'])->name('user
     ->middleware('can:Edit User');
 Route::delete('/user/{user}/destroy', [UserController::class, 'destroy'])->name('user.destroy')
     ->middleware('can:Delete User');
+
+
 Route::get('/user/import', [\App\Http\Controllers\Admin\UserController::class, 'fileImport'])->name('user.fileImport');
-Route::post('//user/import', [\App\Http\Controllers\Admin\UserController::class, 'importFile'])->name('user.file');
-Route::get('//user/export', [\App\Http\Controllers\Admin\UserController::class, 'exportFile'])->name('user.fileExport');
+Route::post('/user/import', [\App\Http\Controllers\Admin\UserController::class, 'importFile'])->name('user.file');
+Route::get('/user/export', [\App\Http\Controllers\Admin\UserController::class, 'exportFile'])->name('user.fileExport');
+
+
 
 Route::get('/permission', [PermissionController::class, 'index'])->name('permission.index')
     ->

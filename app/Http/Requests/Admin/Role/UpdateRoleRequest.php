@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin\File;
+namespace App\Http\Requests\Admin\Role;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ImportFileRequest extends FormRequest
+class UpdateRoleRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +22,15 @@ class ImportFileRequest extends FormRequest
      */
     public function rules(): array
     {
+        $roleId = $this->route('role');
+
         return [
-            'file' => ['required', 'file', 'max:20480', 'mimes:csv'],];
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('roles')->ignore($roleId),
+            ],
+        ];
     }
 }

@@ -13,12 +13,15 @@
     <body>
     <div class="container">
         <h2>File</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            {{csrf_field()}}
+        <form action="{{route('user.fileImport')}}" method="post" enctype="multipart/form-data">
+           @csrf
             <div class="form-group">
                 <label for="file">User File Input</label>
                 <br>
-                <input type="file" name="file" id="file" class="form-control-file" accept=".xls,.xlsx"></input>
+                <input type="file" name="file" id="file" class="form-control-file" accept=".xls,.xlsx, .csv">
+                @error('file')
+                <div class="alert alert-danger">{{ $message }}</div>
+                @enderror
             </div>
             <button type="submit" class="btn btn-primary">Load</button>
 

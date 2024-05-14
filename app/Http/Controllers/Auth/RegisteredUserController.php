@@ -5,14 +5,12 @@ namespace App\Http\Controllers\Auth;
 use App\Events\RegisteredEvent;
 use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
-use Spatie\Permission\Models\Role;
 
 class RegisteredUserController extends Controller
 {
@@ -30,29 +28,28 @@ class RegisteredUserController extends Controller
      * @throws \Illuminate\Validation\ValidationException
      */
     public function store(Request $request): RedirectResponse
-{
-    $request->validate([
-        'name' => ['required', 'string', 'max:255'],
-        'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'confirmed', Rules\Password::defaults()],
-    ]);
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
 
-    $user = User::create([
-        'name' => $request->name,
-        'email' => $request->email,
-        'password' => Hash::make($request->password),
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
 
-    ]);
-    $user->assignRole('customer');
+        ]);
+        $user->assignRole('customer');
 
-    RegisteredEvent::dispatch($user);
-    Auth::login($user);
+        RegisteredEvent::dispatch($user);
 
-    $redirectTo = $request->user()->roles->contains('name', 'admin') ? route('dashboard', [], false) : route('home', [], false);
+        Auth::login($user);
 
-    return redirect()->intended($redirectTo);
+        $redirectTo = $request->user()->roles->contains('name', 'admin') ? route('dashboard', [], false) : route('home', [], false);
 
+        return redirect()->intended($redirectTo);
 
-}
-
+    }
 }

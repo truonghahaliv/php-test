@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Requests\Admin\File;
+namespace App\Http\Requests\Admin\Permission;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class ImportFileRequest extends FormRequest
+class UpdatePermissionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,7 +22,15 @@ class ImportFileRequest extends FormRequest
      */
     public function rules(): array
     {
+        $permissionId = $this->route('permission');
         return [
-            'file' => ['required', 'file', 'max:20480', 'mimes:csv'],];
+            //
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('permissions')->ignore($permissionId),
+            ],
+        ];
     }
 }

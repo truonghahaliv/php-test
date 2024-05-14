@@ -13,12 +13,12 @@
     <body>
     <div class="container">
         <h2>File</h2>
-        <form action="" method="post" enctype="multipart/form-data">
-            {{csrf_field()}}
+        <form action="{{route('product.Upload')}}" method="post" enctype="multipart/form-data">
+           @csrf
             <div class="form-group">
                 <label for="file">Product File Input</label>
                 <br>
-                <input type="file" name="file" id="file" class="form-control-file" accept=".xls,.xlsx"></input>
+                <input type="file" name="file" id="file" class="form-control-file" accept=".csv"></input>
             </div>
             <button type="submit" class="btn btn-primary">Load</button>
 
