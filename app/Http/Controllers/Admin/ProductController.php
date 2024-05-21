@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Exports\ExportProduct;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\File\ImportFileRequest;
 use App\Http\Requests\Admin\Product\StoreProductRequest;
@@ -114,7 +115,7 @@ class ProductController extends Controller
 
 
 
-        $chunks = array_chunk($data, 1000);
+        $chunks = array_chunk($data, 10000);
 
         $header = [];
         $batch  = Bus::batch([])->dispatch();
@@ -139,22 +140,8 @@ class ProductController extends Controller
         $batchId = request('id');
         return Bus::findBatch($batchId);
     }
-    public function exportLargeDataToExcel()
+    public function export()
     {
-        $totalRecords = Product::count(); // Số lượng bản ghi tổng cộng
-        $recordsPerFile = 5; // Số lượng bản ghi trong mỗi tệp Excel
-
-        $totalFiles = ceil($totalRecords / $recordsPerFile);
-
-        // Xử lý xuất dữ liệu thành các tệp Excel nhỏ
-        for ($i = 0; $i < $totalFiles; $i++) {
-            $offset = $i * $recordsPerFile;
-            $limit = $recordsPerFile;
-            $fileName = 'product_' . ($i + 1) . '.csv';
-
-           return  Excel::download(new ProductFileExport($offset, $limit), $fileName);
-        }
-
-
+        return Excel::download(new ExportProduct(), 'products.csv');
     }
 }

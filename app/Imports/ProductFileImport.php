@@ -31,8 +31,8 @@ class ProductFileImport implements ToCollection, ToModel
             $product->name = $row[0];
             $product->price = $row[1];
             $product->quantity = $row[2];
-            $product->image = $row[3];
-            $product->description = $row[4];
+            $product->description = $row[3];
+            $product->image = $row[4];
             $product->save();
 
 

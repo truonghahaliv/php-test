@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
+Route::get('export', [HomeController::class, 'export'])->name('export');
 Route::get('/dashboard', function () {
 
     return view('dashboard');
@@ -38,10 +38,10 @@ Route::delete('/product/{product}/destroy', [ProductController::class, 'destroy'
 Route::get('/product/import', [\App\Http\Controllers\Admin\ProductController::class, 'file'])->name('product.file');
 Route::post('//product/import', [\App\Http\Controllers\Admin\ProductController::class, 'importFile'])->name('product.file');
 
-Route::get('/product/fileImportIndex', [\App\Http\Controllers\Admin\ProductController::class, 'fileImportIndex'])->name('product.fileImportIndex');
+Route::get('/product/import', [\App\Http\Controllers\Admin\ProductController::class, 'fileImportIndex'])->name('product.import');
 Route::post('/product/fileImportUpload', [\App\Http\Controllers\Admin\ProductController::class, 'fileImportUpload'])->name('product.Upload');
 Route::get('/product/batch', [\App\Http\Controllers\Admin\ProductController::class, 'batch'])->name('product.batch');
-Route::get('/product/export', [\App\Http\Controllers\Admin\ProductController::class, 'exportLargeDataToExcel'])->name('user.Export');
+Route::get('/product/export', [\App\Http\Controllers\Admin\ProductController::class, 'export'])->name('product.export');
 
 
 

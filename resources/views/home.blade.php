@@ -15,9 +15,11 @@
         <div>
             <a href="#" class="nav-logo">SARA</a>
         </div>
+        @livewire('export-user')
 
         <div class="nav-menu" id="nav-menu">
             <ul class="nav-list">
+
 
 
                 <li class="nav-item"><a href="/" class="nav-link active">Home</a></li>
@@ -27,7 +29,6 @@
                             @if(auth()->check() && auth()->user()->roles->contains('name', 'admin'))
                                 <a href="{{ url('/dashboard') }}" style="margin-left: 30px">Admin</a>
                             @endif
-
 
 
 
